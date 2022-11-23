@@ -76,4 +76,5 @@ ___________________________________________________
 ![Sample](https://user-images.githubusercontent.com/49760167/203561497-2092ceab-0089-43e2-a7a0-3fe0f6421bbf.png)
 
 > For any questions or doubts contact me on [Telegram](https://t.me/o22ey)
-> Executable version can be downloaded from here
+
+> Executable version can be downloaded from [Here](https://disk.yandex.com/d/bTUqe8hN7zfn8g)
