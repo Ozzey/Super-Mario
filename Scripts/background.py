@@ -1,24 +1,5 @@
 import pygame
-from settings import vertical_tile_number, tile_size, screen_width
-
-# def draw_bg(screen):
-#     # Define game variable
-#     scroll = 0
-#
-#     bg_images = []
-#
-#     for i in range(1, 7):
-#         image = pygame.image.load(f'./graphics/bg/{8 - i}.png').convert_alpha()
-#         bg_image = pygame.transform.scale(image, (500, screen_height))
-#         bg_images.append(bg_image)
-#
-#     bg_width = bg_images[0].get_width()
-#
-#     for x in range(6):
-#         speed = 1
-#         for k in bg_images:
-#             screen.blit(k, ((x * bg_width) - scroll*speed, 0))
-#             speed += 0.2
+from settings import vertical_tile_number, tile_size, screen_width,screen_height
 
 
 

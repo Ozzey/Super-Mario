@@ -9,7 +9,7 @@ from .game_data import levels
 
 
 class Level:
-    def __init__(self, current, screen, create_overworld, change_coins,change_health):
+    def __init__(self, current, screen, create_overworld, change_coins, change_health):
         self.display_surface = screen
         self.world_shift = 0
         self.current_x = 0
@@ -58,10 +58,10 @@ class Level:
         player_layout = import_csv_layout(level_data['player'])
         self.player = pygame.sprite.GroupSingle()
         self.goal = pygame.sprite.GroupSingle()
-        self.player_setup(player_layout,change_health)
+        self.player_setup(player_layout, change_health)
 
         # Elements
-        #self.bg = background(8)
+        # self.bg = background(8)
         # level_width = len(terrain_layout[0]) * tile_size
         # self.water = Water(screen_height - 20, level_width)
         # self.clouds = Clouds(400, level_width, 30)
@@ -70,20 +70,20 @@ class Level:
         self.coin_sound = pygame.mixer.Sound('./audio/effects/coin.wav')
         self.stomp_sound = pygame.mixer.Sound('./audio/effects/stomp.wav')
 
-    def player_setup(self, layout,change_health):
+    def player_setup(self, layout, change_health):
         for row_index, row in enumerate(layout):
             for col_index, val in enumerate(row):
                 x = col_index * tile_size
                 y = row_index * tile_size
                 if val == '0':
-                    sprite = Player((x, y), self.display_surface, self.create_jump_particles,change_health)
+                    sprite = Player((x, y), self.display_surface, self.create_jump_particles, change_health)
                     self.player.add(sprite)
                 if val == '1':
                     hat_surface = pygame.image.load('./graphics/character/hat.png').convert_alpha()
                     sprite = StaticTile(tile_size, x, y, surface=hat_surface)
                     self.goal.add(sprite)
 
-    def create_tile_group(self, layout, type):
+    def create_tile_group(self, layout, tile):
         sprite_group = pygame.sprite.Group()
 
         for row_index, row in enumerate(layout):
@@ -92,29 +92,29 @@ class Level:
                     x = col_index * tile_size
                     y = row_index * tile_size
 
-                    if type == 'terrain':
+                    if tile == 'terrain':
                         terrain_tile_list = import_cut_graphics('./graphics/terrain/terrain_tilesx.png')
                         tile_surface = terrain_tile_list[int(val)]
                         sprite = StaticTile(tile_size, x, y, tile_surface)
 
-                    if type == 'props':
+                    if tile == 'props':
                         terrain_tile_list = import_cut_graphics('./graphics/decoration/props.png')
                         tile_surface = terrain_tile_list[int(val)]
                         sprite = StaticTile(tile_size, x, y, tile_surface)
 
-                    if type == 'crates':
+                    if tile == 'crates':
                         sprite = Crate(tile_size, x, y)
 
-                    if type == 'coins':
+                    if tile == 'coins':
                         if val == '0':
-                            sprite = Coin(tile_size, x, y, './graphics/coins/gold',5)
+                            sprite = Coin(tile_size, x, y, './graphics/coins/gold', 5)
                         if val == '1':
-                            sprite = Coin(tile_size, x, y, './graphics/coins/silver',1)
+                            sprite = Coin(tile_size, x, y, './graphics/coins/silver', 1)
 
-                    if type == 'enemies':
+                    if tile == 'enemies':
                         sprite = Enemy(tile_size, x, y)
 
-                    if type == 'constraint':
+                    if tile == 'constraint':
                         sprite = Tile(tile_size, x, y)
 
                     sprite_group.add(sprite)
@@ -228,9 +228,8 @@ class Level:
         if self.player.sprite.rect.top > screen_height:
             self.create_overworld(self.current_level, 0)
 
-
     def check_win(self):
-        if pygame.sprite.spritecollide(self.player.sprite,self.goal,False):
+        if pygame.sprite.spritecollide(self.player.sprite, self.goal, False):
             self.create_overworld(self.current_level, self.new_max_level)
 
     def check_coin_collisions(self):
@@ -257,11 +256,27 @@ class Level:
                 else:
                     self.player.sprite.get_damage()
 
+    def background_maker(self, screen):
+
+        level_data = levels[self.current_level]
+
+        top = pygame.image.load(level_data['top']).convert()
+        top = pygame.transform.scale(top, (screen_width, screen_height))
+        middle = pygame.image.load(level_data['middle']).convert()
+        middle = pygame.transform.scale(middle, (screen_width, screen_height))
+        bottom = pygame.image.load(level_data['bottom']).convert()
+        bottom = pygame.transform.scale(bottom, (screen_width, screen_height))
+
+        screen.blit(top, (0, 0))
+        screen.blit(middle, (0, 0))
+        screen.blit(bottom, (0, 0))
+
     def run(self):
 
         # Elements
-        #self.bg.draw(self.display_surface)
+        # self.bg.draw(self.display_surface)
         # self.clouds.draw(self.display_surface, self.world_shift)
+        self.background_maker(self.display_surface)
 
         # Terrain
         self.terrain_sprites.update(self.world_shift)

@@ -4,7 +4,6 @@ from os import walk
 import pygame
 import json
 
-
 def import_character(path):
     surface_list = []
     for _, __, image_files in walk(path):
@@ -60,6 +59,7 @@ def read_data():
     f.close()
     return data
 
+
 def write_data(val_type,value):
     with open('data.json', 'r+') as f:
         data = json.load(f)
@@ -67,5 +67,8 @@ def write_data(val_type,value):
         f.seek(0)
         json.dump(data, f, indent=4)
         f.truncate()
+
+
+# def import_background(level):
 
 
