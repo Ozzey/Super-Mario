@@ -2,6 +2,7 @@ from csv import reader
 from settings import tile_size
 from os import walk
 import pygame
+import json
 
 
 def import_character(path):
@@ -51,5 +52,20 @@ def import_cut_graphics(path):
 
     return cut_tiles
 
+
+
+def read_data():
+    f = open('data.json')
+    data = json.load(f)
+    f.close()
+    return data
+
+def write_data(val_type,value):
+    with open('data.json', 'r+') as f:
+        data = json.load(f)
+        data[val_type] = value
+        f.seek(0)
+        json.dump(data, f, indent=4)
+        f.truncate()
 
 
